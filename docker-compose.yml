@@ -1,0 +1,67 @@
+version: "3"
+services:
+  #App Service
+  trai-nam-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:7.4-fpm
+    container_name: trai-nam-appc
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      XDEBUG_CONFIG: "remote_host=172.16.3.151"
+      PHP_IDE_CONFIG: "serverName=localhost"
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - trai-nam-network
+
+  #Nginx Service
+  trai-nam-nginx:
+    image: nginx:alpine
+    container_name: trai-nam-nginxc
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - trai-nam-network
+
+  #MySQL Service
+  trai-nam-mysql:
+    image: mysql:8.0
+    container_name: trai-nam-mysqlc
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "33061:3306"
+    expose:
+      - "33061"
+    environment:
+      MYSQL_DATABASE: trai-nam
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - trai-nam-dbdata:/var/lib/mysql
+      - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - trai-nam-network
+
+#Docker Networks
+networks:
+  trai-nam-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  trai-nam-dbdata:
+    driver: local
