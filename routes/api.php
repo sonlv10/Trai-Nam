@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('auth/google/url', 'Api\Auth\GoogleController@loginUrl');
 Route::get('auth/google/callback', 'Api\Auth\GoogleController@loginCallback');
+
+Route::get('auth/github/url', 'Api\Auth\GithubController@loginUrl');
+Route::get('auth/github/callback', 'Api\Auth\GithubController@loginCallback');

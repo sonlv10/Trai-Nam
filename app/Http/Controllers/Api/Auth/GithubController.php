@@ -10,28 +10,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
 
-class GoogleController extends Controller
+class GithubController extends Controller
 {
     public function loginUrl()
     {
-        return Socialite::driver('google')->stateless()->redirect();
+        return Socialite::driver('github')->stateless()->redirect();
     }
 
     public function loginCallback()
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
+        $GithubUser = Socialite::driver('Github')->stateless()->user();
         $user = null;
-
-        DB::transaction(function () use ($googleUser, &$user) {
+        DB::transaction(function () use ($GithubUser, &$user) {
             $socialAccount = SocialAccount::firstOrNew(
-                ['social_id' => $googleUser->getId(), 'social_provider' => 'google'],
-                ['social_name' => $googleUser->getName()]
+                ['social_id' => $GithubUser->getId(), 'social_provider' => 'Github'],
+                ['social_name' => $GithubUser->getName()]
             );
 
             if (!($user = $socialAccount->user)) {
                 $user = User::create([
-                    'email' => $googleUser->getEmail(),
-                    'name' => $googleUser->getName(),
+                    'email' => $GithubUser->getEmail(),
+                    'name' => $GithubUser->getName(),
                 ]);
                 $socialAccount->fill(['user_id' => $user->id])->save();
             }
@@ -39,7 +38,7 @@ class GoogleController extends Controller
 
         return Response::json([
             'user' => new UserResource($user),
-            'google_user' => $googleUser,
+            'Github_user' => $GithubUser,
         ]);
     }
 }
