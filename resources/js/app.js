@@ -16,7 +16,7 @@ import App from './App.vue'
 Vue.use(Vuetify);
 
 const app = new Vue({
-    el: '#app',
+    el: '#app-vue',
     router : Routes,
     store  : Store,
     vuetify: new Vuetify(),

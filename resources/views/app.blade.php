@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 <body>
-<div id="app"></div>
+<div id="app-vue"></div>
 </body>
 <script src=" {{asset('js/app.js')}} "></script>
 </html>

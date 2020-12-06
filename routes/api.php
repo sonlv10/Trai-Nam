@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('auth/google/url', 'Api\Auth\GoogleController@loginUrl');
-Route::get('auth/google/callback', 'Api\Auth\GoogleController@loginCallback');
 
-Route::get('auth/github/url', 'Api\Auth\GithubController@loginUrl');
-Route::get('auth/github/callback', 'Api\Auth\GithubController@loginCallback');
+Route::get('auth/{provider}/url', 'Api\Auth\SocialController@loginUrl');
+Route::get('auth/{provider}/callback', 'Api\Auth\SocialController@loginCallback');

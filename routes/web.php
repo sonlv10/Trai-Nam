@@ -20,3 +20,6 @@ Route::get('/', function () {
 Route::get('/products', function () {
     return 'get success';
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
