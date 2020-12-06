@@ -18,5 +18,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('auth/{provider}/url', 'Api\Auth\SocialController@loginUrl');
-Route::get('auth/{provider}/callback', 'Api\Auth\SocialController@loginCallback');

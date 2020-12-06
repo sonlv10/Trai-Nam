@@ -23,3 +23,6 @@ Route::get('/products', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('api/auth/{provider}/url', 'Api\Auth\SocialController@loginUrl');
+Route::get('api/auth/{provider}/callback', 'Api\Auth\SocialController@loginCallback');

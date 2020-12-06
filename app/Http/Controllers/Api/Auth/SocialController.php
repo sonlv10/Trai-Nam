@@ -7,7 +7,6 @@ use App\Http\Resources\UserResource;
 use App\Models\SocialAccount;
 use App\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
 //use Laravel\Socialite\Facades\Socialite;
 use Socialite;
 
@@ -15,12 +14,12 @@ class SocialController extends Controller
 {
     public function loginUrl($provider)
     {
-        return Socialite::driver($provider)->stateless()->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 
     public function loginCallback($provider)
     {
-        $socialUser = Socialite::driver($provider)->stateless()->user();
+        $socialUser = Socialite::driver($provider)->user();
         $user = null;
 
         DB::transaction(function () use ($socialUser, $provider, &$user) {
